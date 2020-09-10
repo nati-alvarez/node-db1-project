@@ -20,7 +20,8 @@ router.get("/", (req, res, next)=>{
 router.post("/", (req, res, next)=>{
     const {name, budget} = req.body;
     if(!name || !budget) return res.status(400).json({message: "Name and budget fields are required."});
-    db("accounts").insert({name: name, budget: budget}).then(accountId=>{
+    db("accounts").insert({name: name, budget: budget}, ["id"]).then(accountId=>{
+        accountId = accountId[0].id;
         res.status(201).json({id: accountId, ...req.body});
     }).catch(err=>{
         next(err);
