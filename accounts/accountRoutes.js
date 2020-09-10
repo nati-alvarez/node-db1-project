@@ -10,6 +10,16 @@ router.get("/", (req, res, next)=>{
     });
 });
 
+router.post("/", (req, res, next)=>{
+    const {name, budget} = req.body;
+    if(!name || !budget) return res.status(400).json({message: "name and budget fields are required"});
+    db("accounts").insert({name: name, budget: budget}).then(accountId=>{
+        res.status(201).json({id: accountId, ...req.body});
+    }).catch(err=>{
+        next(err);
+    })
+})
+
 router.get("/:id", (req, res, next)=>{
     db("accounts").where({id: req.params.id}).then(user=>{
         user = user[0];
