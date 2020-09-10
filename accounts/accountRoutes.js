@@ -3,7 +3,14 @@ const router = express.Router();
 const db = require('../data/dbConfig');
 
 router.get("/", (req, res, next)=>{
-    db("accounts").then(accounts=>{
+    let sqlQuery = db("accounts");
+    
+    //optional query parameters
+    if(req.query.limit) sqlQuery.limit(req.query.limit);
+
+    if(req.query.sortby) sqlQuery.orderBy(req.query.sortby, req.query.sortdir);
+
+    sqlQuery.then(accounts=>{
       res.status(200).json(accounts);
     }).catch(err=>{
       next(err);
