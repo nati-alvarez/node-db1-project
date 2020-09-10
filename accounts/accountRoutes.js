@@ -29,7 +29,17 @@ router.delete("/:id", validateAccount, (req, res, next)=>{
         res.status(200).json(req.account);
     }).catch(err=>{
         next(err);
-    })
+    });
+});
+
+router.put("/:id", validateAccount, (req, res, next)=>{
+    const {name, budget} = req.body;
+    if(!name || !budget) return res.status(400).json({message: "N"})
+    db("accounts").where({id: req.params.id}).update({name: name, budget: budget}).then(numOfAccountsUpdated=>{
+        res.status(200).json({id: req.params.id, ...req.body});
+    }).catch(err=>{
+        next(err);
+    });
 });
 
 function validateAccount (req, res, next){
