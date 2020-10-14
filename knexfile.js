@@ -21,7 +21,7 @@ module.exports = {
       host: "localhost", // if the server is not running on your computer provide the network address
       database: "node-db1", // <-- update
       user: "postgres", // <-- update
-      password: "san12nas", // <-- update
+      password: "password", // <-- update
     },
     pool: {
       min: 2,
