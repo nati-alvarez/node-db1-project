@@ -42,7 +42,7 @@ router.delete("/:id", validateAccount, (req, res, next)=>{
 
 router.put("/:id", validateAccount, (req, res, next)=>{
     const {name, budget} = req.body;
-    if(!name || !budget) return res.status(400).json({message: "N"})
+    if(!name || !budget) return res.status(400).json({message: "Name and budget fields are required"})
     db("accounts").where({id: req.params.id}).update({name: name, budget: budget}).then(numOfAccountsUpdated=>{
         res.status(200).json({id: req.params.id, ...req.body});
     }).catch(err=>{
